@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Duki Alex. ScienceSoft testing</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header></header>
+
+	<section>
+		<aside></aside>
+		<article>
+			<div id="video">
+				<video src=""></video>
+			</div>
+
+			<ul id="list"></ul>
+		</article>
+	</section>
+
+<script>
+
+window.onload = loadRates();
+
+function loadRates() {
+
+	var xhr = new XMLHttpRequest();
+
+	xhr.open('GET', 'movies.json', true);
+
+	xhr.onreadystatechange = function() {
+
+		if (xhr.readyState != 4) return;
+
+		if (xhr.status != 200) {
+			// обработать ошибку
+			console.log(xhr.status + ': ' + xhr.statusText);
+		} else {
+			try {
+				window.movies = JSON.parse(xhr.responseText);
+				console.log(movies);
+
+			} catch (e) {
+				console.log("Некорректный ответ " + e.message);
+			}
+		}
+	}
+	xhr.send();
+
+};
+	
+</script>
+	
+</body>
+</html>
