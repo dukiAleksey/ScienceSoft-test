@@ -1,116 +1,114 @@
-	(function() {
 
-		var xhr = new XMLHttpRequest();
+// Start wiith loading JSON file
+// Call ShowMovies function
 
-		xhr.open('GET', 'movies.json', true);
+(function() {
 
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState != 4) return;
+	var xhr = new XMLHttpRequest();
 
-			if (xhr.status != 200) {
-				// обработать ошибку
-				alert(xhr.status + ': ' + xhr.statusText);
-			} else {
-				try {
-					var movies = JSON.parse(xhr.responseText);
-				} catch (e) {
-					alert("Некорректный ответ " + e.message);
-				}
+	xhr.open('GET', 'movies.json', true);
 
-				showMovies(movies);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState != 4) return;
+
+		if (xhr.status != 200) {
+			// обработать ошибку
+			alert(xhr.status + ': ' + xhr.statusText);
+		} else {
+			try {
+				var movies = JSON.parse(xhr.responseText);
+			} catch (e) {
+				alert("Некорректный ответ " + e.message);
 			}
-
-		}
-
-		xhr.send();
-
-	})();
-
-	function showMovies(movies) {
-
-		movies.forEach(function(movies) {
-			var li = list.appendChild(document.createElement('li'));
-			li.innerHTML = '<img src="' + movies.images.cover + '"><p>' + movies.title + '</p><p class="small">' + movies.meta.releaseYear + '</p>';
-			li.setAttribute("id", movies.id);
-		});
-
-		var elems = document.getElementById('list');
-
-		elems.onclick = function(event) {
-			showPlayer(event.target.parentNode.getAttribute('id'), movies)
+			showMovies(movies);
 		}
 	}
+	xhr.send();
+})();
 
-	
+// Show thumbnails
+// get events
 
-    function showPlayer(id,movies) {
+function showMovies(movies) {
 
-    	var id = id-1;
+	movies.forEach(function(movies) {
+		var li = list.appendChild(document.createElement('li'));
+		li.innerHTML = '<img src="' + movies.images.cover + '"><p>' + movies.title + '</p><p class="small">' + movies.meta.releaseYear + '</p>';
+		li.setAttribute("id", movies.id);
+	});
 
-		var video = document.createElement('video');
+	var elems = document.getElementById('list');
 
-		video.setAttribute('poster', movies[id].images.placeholder);
-		video.setAttribute('controls', '');
-		video.setAttribute('autoplay', '');
+	elems.onclick = function(event) {
+		showPlayer(event.target.parentNode.getAttribute('id'), movies)
+	}
+}
 
-    	for (var i = 0; i < movies[id].streams.length; i++) {
-    		movies[id].streams[i]
+// Show player with info	
 
-    		var sourse = document.createElement('source');
-	        sourse.setAttribute('src', movies[id].streams[i].url);
-	        sourse.setAttribute('type', 'video/' + movies[id].streams[i].type);
-	        video.appendChild(sourse);
+function showPlayer(id,movies) {
 
-    	}
+	var id = id-1;
 
-        var textnode = document.createTextNode("Your browser does not support the video tag.");
-        video.appendChild(textnode);
+	// create video container with parameters
 
-        document.getElementById('video').innerHTML = '';
-        document.getElementById('video').appendChild(video);
+	var video = document.createElement('video');
 
-        var title = document.createElement('h1');
-        var year = document.createTextNode( ' (' + movies[id].meta.releaseYear + ')')
-        var titleLabel = document.createTextNode(movies[id].title);
-        title.appendChild(titleLabel);
-        title.appendChild(year);
+	video.setAttribute('poster', movies[id].images.placeholder);
+	video.setAttribute('controls', '');
+	video.setAttribute('autoplay', '');
 
-        document.getElementById('video').appendChild(title);
-        
-        //  Add Directors
+	for (var i = 0; i < movies[id].streams.length; i++) {
 
-        if (movies[id].meta.directors.length > 0) {
+		var sourse = document.createElement('source');
+		sourse.setAttribute('src', movies[id].streams[i].url);
+		sourse.setAttribute('type', 'video/' + movies[id].streams[i].type);
+		video.appendChild(sourse);
 
-        	var directors = document.createElement('p');
+	}
 
-        	directors.innerHTML = 'Directors: ';
+	var textnode = document.createTextNode("Your browser does not support the video tag.");
+	video.appendChild(textnode);
 
-        	for (var i = 0; i < movies[id].meta.directors.length; i++) {
+	document.getElementById('video').innerHTML = '';
+	document.getElementById('video').appendChild(video);
 
-        		var director = document.createTextNode(' ' + movies[id].meta.directors[i].name);
+	var title = document.createElement('h1');
+	var year = document.createTextNode( ' (' + movies[id].meta.releaseYear + ')')
+	var titleLabel = document.createTextNode(movies[id].title);
+	title.appendChild(titleLabel);
+	title.appendChild(year);
 
-        		directors.appendChild(director);
-        	}
+	document.getElementById('video').appendChild(title);
 
-        	document.getElementById('video').appendChild(directors);
+	//  Add Directors
 
-        }
+	if (movies[id].meta.directors.length > 0) {
 
-        //  Add actors
+		var directors = document.createElement('p');
+		directors.innerHTML = 'Directors: ';
 
-        if (movies[id].meta.actors.length > 0) {
+		for (var i = 0; i < movies[id].meta.directors.length; i++) {
+			var director = document.createTextNode(' ' + movies[id].meta.directors[i].name);
+			directors.appendChild(director);
+		}
 
-        	var actors = document.createElement('p');
+		document.getElementById('video').appendChild(directors);
 
-        	actors.innerHTML = 'Actors: ';
+	}
 
-        	for (var i = 0; i < movies[id].meta.actors.length; i++) {
+	//  Add actors
 
-        		var director = document.createTextNode(' ' + movies[id].meta.actors[i].name);
+	if (movies[id].meta.actors.length > 0) {
 
-        		actors.appendChild(director)
-        	}
+		var actors = document.createElement('p');
+		actors.innerHTML = 'Actors: ';
 
-        	document.getElementById('video').appendChild(actors);
-        }
-    }
+		for (var i = 0; i < movies[id].meta.actors.length; i++) {
+			var director = document.createTextNode(' ' + movies[id].meta.actors[i].name);
+			actors.appendChild(director)
+		}
+
+		document.getElementById('video').appendChild(actors);
+	}
+};
