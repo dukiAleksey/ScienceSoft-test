@@ -9,5 +9,4 @@
 
 Ориентировочно выполнение заняло 4-5 часов. 
 
-для запуска в Chrome, Safari - использовать node.js (запускать server.js)
-для запуска в Firefox - можно запускать через index.html
+для запуска в Chrome, Safari - использовать node.js (запускать server.js). Для запуска в Firefox - index.html
