@@ -1,6 +1,4 @@
-	window.onload = loadMovies();
-
-	function loadMovies() {
+	(function() {
 
 		var xhr = new XMLHttpRequest();
 
@@ -26,7 +24,7 @@
 
 		xhr.send();
 
-	}
+	})();
 
 	function showMovies(movies) {
 
