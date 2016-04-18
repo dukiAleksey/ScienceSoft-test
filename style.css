@@ -65,17 +65,17 @@ article {
       width: 100%;
       margin-bottom: 20px;
       box-shadow: 0px 2px 6px #969696; }
-  article ul {
+  article #list {
     display: -webkit-flex;
     display: -moz-flex;
     display: -ms-flex;
     display: -o-flex;
     display: flex;
     justify-content: space-between; }
-    article ul li {
+    article #list li {
       cursor: pointer;
       transition: all .15s; }
-      article ul li:hover {
+      article #list li:hover {
         -webkit-transform: scale(1.03);
         -ms-transform: scale(1.03);
         -o-transform: scale(1.03);
